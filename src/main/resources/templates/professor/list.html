@@ -14,7 +14,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<!-- Barra de Navegación superior -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand" href="#"></a>
     <img src="/images/student-48.png" alt="logo"/>
@@ -64,30 +63,39 @@
         </form> -->
     </div>
 </nav>
+
+
 <div class="container" id="main-container">
-    <h2>Editar nota</h2>
-    <form class="form-horizontal" method="post" th:action="${'/mark/edit/' + mark.id}">
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="description">Descripción:</label>
-            <div class="col-sm-10">
-                <input id=description th:value="${mark.description}" type="text" class="form-control" name="description"
-                       placeholder="Ejemplo Ejercicio 1" required="true"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="score">Puntuación:</label>
-            <div class="col-sm-10">
-                <input id="score" th:value="${mark.score}" type="number" class="form-control" name="score"
-                       placeholder="Entre 0 y 10"
-                       required="true"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Modificar</button>
-            </div>
-        </div>
-    </form>
+    <h2>Profesores</h2>
+    <p>Los profesores que actualmente figuran en el sistema son las siguientes:</p>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">DNI</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellidos</th>
+                <th scope="col">Categoria</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="professor : ${professorList}">
+                <td scope="row" th:text="${professor.DNI}"> 1</td>
+                <td th:text="${professor.name}"></td>
+                <td th:text="${professor.surnames}"></td>
+                <td th:text="${professor.category}">10</td>
+                <td><a th:href="${'/professor/details/' + professor.id}">detalles</a></td>
+                <td><a th:href="${'/professor/edit/' + professor.id}">modificar</a></td>
+                <td><a th:href="${'/professor/delete/' + professor.id}">eliminar</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${#lists.isEmpty(professorList)}"> No professors </div>
 </div>
+
+
 </body>
 </html>
