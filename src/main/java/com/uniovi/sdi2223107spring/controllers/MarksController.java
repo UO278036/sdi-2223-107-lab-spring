@@ -43,7 +43,6 @@ public class MarksController {
         markAddValidator.validate(mark, result);
         if (result.hasErrors()){
             model.addAttribute("usersList", usersService.getUsers());
-            model.addAttribute("mark", new Mark());
             return "mark/add";
         }
         marksService.addMark(mark);
