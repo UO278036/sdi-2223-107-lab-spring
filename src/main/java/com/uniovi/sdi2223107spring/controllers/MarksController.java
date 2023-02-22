@@ -2,6 +2,7 @@ package com.uniovi.sdi2223107spring.controllers;
 
 import com.uniovi.sdi2223107spring.entities.Mark;
 
+import com.uniovi.sdi2223107spring.entities.User;
 import com.uniovi.sdi2223107spring.services.MarksService;
 import com.uniovi.sdi2223107spring.services.UsersService;
 import com.uniovi.sdi2223107spring.validators.MarkAddValidator;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,8 +32,10 @@ public class MarksController {
 
     private MarksService marksService;
     @RequestMapping("/mark/list")
-    public String getList(Model model) {
-        model.addAttribute("markList", marksService.getMarks());
+    public String getList(Model model, Principal principal){
+        String dni = principal.getName(); // DNI es el name de la autenticación
+        User user = usersService.getUserByDni(dni);
+        model.addAttribute("markList", marksService.getMarksForUser(user) );
         return "mark/list";
     }
 
@@ -67,10 +71,13 @@ public class MarksController {
     }
 
     @RequestMapping("/mark/list/update")
-    public String updateList(Model model){
-        model.addAttribute("markList", marksService.getMarks() );
+    public String updateList(Model model, Principal principal) {
+        String dni = principal.getName(); // DNI es el name de la autenticación
+        User user = usersService.getUserByDni(dni);
+        model.addAttribute("markList", marksService.getMarksForUser(user));
         return "mark/list :: tableMarks";
     }
+
 
     @RequestMapping(value = "/mark/edit/{id}")
     public String getEdit(Model model, @PathVariable Long id) {
