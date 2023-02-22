@@ -22,12 +22,14 @@ public class MarksService {
     public MarksService(HttpSession httpSession) {
         this.httpSession = httpSession;
     }
-        public List<Mark> getMarks() {
+
+    public List<Mark> getMarks() {
         List<Mark> marks = new ArrayList<Mark>();
         marksRepository.findAll().forEach(marks::add);
         return marks;
     }
-    public Mark getMark(Long id){
+
+    public Mark getMark(Long id) {
         return marksRepository.findById(id).get();
     }
 
@@ -35,9 +37,11 @@ public class MarksService {
         // Si en Id es null le asignamos el último + 1 de la lista
         marksRepository.save(mark);
     }
+
     public void deleteMark(Long id) {
         marksRepository.deleteById(id);
     }
+
     public void setMarkResend(boolean revised, Long id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String dni = auth.getName();
@@ -47,13 +51,28 @@ public class MarksService {
 
         }
     }
+
     public List<Mark> getMarksForUser(User user) {
         List<Mark> marks = new ArrayList<>();
         if (user.getRole().equals("ROLE_STUDENT")) {
-            marks = marksRepository.findAllByUser(user);}
+            marks = marksRepository.findAllByUser(user);
+        }
         if (user.getRole().equals("ROLE_PROFESSOR")) {
-            marks = getMarks(); }
+            marks = getMarks();
+        }
         return marks;
     }
 
+    public List<Mark> searchMarksByDescriptionAndNameForUser(String searchText, User user) {
+        List<Mark> marks = new ArrayList<>();
+        searchText = "%"+searchText+"%";
+        if (user.getRole().equals("ROLE_STUDENT")) {
+            marks = marksRepository.searchByDescriptionNameAndUser(searchText, user);
+        }
+        if (user.getRole().equals("ROLE_PROFESSOR")) {
+            marks = marksRepository.searchByDescriptionAndName(searchText);
+        }
+        return marks;
+
+    }
 }
