@@ -33,7 +33,6 @@ public class MarksController {
     @RequestMapping(value="/mark/add")
     public String getMark(Model model){
         model.addAttribute("usersList", usersService.getUsers());
-        model.addAttribute("mark", new Mark());
         return "mark/add";
     }
 
