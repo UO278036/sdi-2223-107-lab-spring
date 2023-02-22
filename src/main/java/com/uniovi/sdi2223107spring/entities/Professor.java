@@ -3,9 +3,13 @@ package com.uniovi.sdi2223107spring.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
+@Entity
 public class Professor {
 
+    @Id
+    @GeneratedValue
     private String DNI;
     private String name;
     private String surnames;
@@ -16,6 +20,14 @@ public class Professor {
 
     public Professor(){
 
+    }
+
+    public Professor(String dni, String name, String apellidos, String categoria) {
+        super();
+        this.DNI = dni;
+        this.name = name;
+        this.surnames = apellidos;
+        this.category = categoria;
     }
 
     public Professor(Long id, String DNI, String name, String surnames, String category) {
@@ -35,6 +47,14 @@ public class Professor {
                 ", category='" + category + '\'' +
                 ", id=" + id +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Professor professor = (Professor) o;
+        return Objects.equals(DNI, professor.DNI);
     }
 
     public Long getId() {
