@@ -25,7 +25,20 @@
     /*]]>*/
   </script>
   <div class="table-responsive">
-    <table th:replace="fragments/markTable"></table>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      $("#updateButton").click(function () {
+        let numberPage = [[${param.page}]];
+        let urlUpdate = '/mark/list/update';
+        if (numberPage != null) {
+          urlUpdate += "?page=" + numberPage[0];
+        }
+        $("#tableMarks").load(urlUpdate);
+      });
+      /*]]>*/
+    </script>
+    <table th:fragment="tableMarks" id="tableMarks" th:replace="fragments/markTable"></table>
+    <footer th:replace="fragments/pagination"/>
   </div>
 </div>
 <footer th:replace="fragments/footer"/>

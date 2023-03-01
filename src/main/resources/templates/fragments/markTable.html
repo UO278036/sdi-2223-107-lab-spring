@@ -1,15 +1,4 @@
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    $("#updateButton").click(function () {
-        let numberPage = [[${param.page}]];
-        let urlUpdate = '/mark/list/update';
-        if (numberPage != null) {
-            urlUpdate += "?page=" + numberPage[0];
-        }
-        $("#tableMarks").load(urlUpdate);
-    });
-    /*]]>*/
-</script>
+
 <div class="table-responsive">
     <table class="table table-hover" th:fragment="tableMarks" id="tableMarks" xmlns:sec="http://www.w3.org/1999/xhtml">
         <thead>
@@ -74,6 +63,5 @@
         </tr>
         </tbody>
     </table>
-    <footer th:replace="fragments/pagination"/>
 </div>
 <div th:if="${#lists.isEmpty(markList)}"> No marks</div>
