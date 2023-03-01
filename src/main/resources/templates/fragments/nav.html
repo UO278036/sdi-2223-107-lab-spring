@@ -1,40 +1,43 @@
-<!-- nav.html -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extrasspringsecurity4">
-    <a class="navbar-brand" href="#"></a>
-    <img src="/images/student-48.png" alt="logo"/>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary"
+     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extrasspringsecurity4">
+    <a class="navbar-brand" href="#"></a><img
+        src="/images/student-48.png" alt="logo"/>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar"
-            aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+            aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation"><span
+            class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
-            <li class="nav-item ">
-                <a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a>
-            </li>
+            <li class="nav-item "><a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a></li>
             <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false"> Gestión de notas
-                </a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                   role="button" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false"> Gestión de notas</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/mark/list">Ver Notas</a>
                     <a class="dropdown-item" href="/mark/add" sec:authorize="hasRole('ROLE_PROFESSOR')">Agregar Nota</a>
+
                 </div>
             </li>
+
             <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')" >
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                   arias-haspopup="true" aria-expanded="false">Gestión de usuarios
-                </a>
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown"
+                   role="button" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false"> Gestión de usuarios</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/user/add">Agregar usuario</a>
                     <a class="dropdown-item" href="/user/list">Ver usuarios</a>
+                    <a class="dropdown-item" href="/user/add">Agregar usuarios</a>
                 </div>
             </li>
-            <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')" >
+
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="profesorDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false"> Gestión de profesores
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/professor/list">Ver profesores</a>
+                </div>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/professor/add" sec:authorize="hasRole('ROLE_ADMIN')">Agregar profesor</a>
                 </div>
             </li>
         </ul>
@@ -56,16 +59,15 @@
                 </div>
             </li>
             <li sec:authorize="!isAuthenticated()" class="nav-item">
-                <a class="nav-link" href="/signup" th:text="#{signup.message}">
+                <a class="nav-link" href="/signup">
                     <i class='fas fa-user-alt' style='font-size:16px'></i>
-                    <span>Registrate</span>
+                    <span th:text="#{signup.message}"></span>
                 </a>
             </li>
             <li sec:authorize="!isAuthenticated()" class="nav-item">
-                <a class="nav-link" href="/login" th:text="#{login.message}">
-                    <i class='fas fa-sign-in-alt' style='font-size:16px'></i>
-                    <span>Identifícate</span>
-                </a>
+                <a class="nav-link" href="/login">
+                    <i class='fas fa-sign-in-alt' style='font-size:16px'>
+                    </i><span th:text="#{login.message}"></span></a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item">
                 <a class="nav-link" href="/logout">
@@ -74,5 +76,9 @@
                 </a>
             </li>
         </ul>
+        <!--<form class="form-inline"><input class="form-control mr-sm-2" type="search" placeholder="Search"
+                                         aria-label="Search">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+        </form>-->
     </div>
 </nav>
