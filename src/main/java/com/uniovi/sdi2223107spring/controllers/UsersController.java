@@ -1,11 +1,16 @@
 package com.uniovi.sdi2223107spring.controllers;
 
+import com.uniovi.sdi2223107spring.entities.Mark;
 import com.uniovi.sdi2223107spring.entities.User;
+import com.uniovi.sdi2223107spring.services.MarksService;
 import com.uniovi.sdi2223107spring.services.RolesService;
 import com.uniovi.sdi2223107spring.services.SecurityService;
 import com.uniovi.sdi2223107spring.services.UsersService;
 import com.uniovi.sdi2223107spring.validators.SignUpFormValidator;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,8 +20,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.LinkedList;
+
 @Controller
 public class UsersController {
+    @Autowired //Inyectar el servicio
+
+    private MarksService marksService;
     @Autowired
     private RolesService rolesService;
     @Autowired
@@ -88,12 +99,23 @@ public class UsersController {
     public String login() {
         return "login";
     }
+
     @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
-    public String home(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String dni = auth.getName();
-        User activeUser = usersService.getUserByDni(dni);
-        model.addAttribute("markList", activeUser.getMarks());
+    public String home(Model model, Pageable pageable, Principal principal,
+                       @RequestParam(value="", required=false) String searchText) {
+        String dni = principal.getName(); // DNI es el name de la autenticación
+        User user = usersService.getUserByDni(dni);
+        Page<Mark> marks = new PageImpl<Mark>(new LinkedList<Mark>());
+        if (searchText!=null && !searchText.isEmpty()) {
+            marks = marksService.searchMarksByDescriptionAndNameForUser(pageable, searchText, user);
+        }
+        else {
+            marks = marksService.getMarksForUser(pageable, user);
+        }
+
+        model.addAttribute("markList", marks.getContent());
+        model.addAttribute("page", marks);
+        model.addAttribute("page", marks);
         return "home";
     }
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
