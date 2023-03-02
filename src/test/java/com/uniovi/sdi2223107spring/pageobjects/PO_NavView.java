@@ -2,6 +2,7 @@ package com.uniovi.sdi2223107spring.pageobjects;
 
 import com.uniovi.sdi2223107spring.util.SeleniumUtils;
 import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -51,5 +52,11 @@ public class PO_NavView extends PO_View {
         List<WebElement> Selectedlanguage = SeleniumUtils.waitLoadElementsBy(driver, "id", textLanguage,
                 getTimeout());
         Selectedlanguage.get(0).click();
+    }
+
+    static public void clickLogout(WebDriver driver){
+
+        By boton = By.xpath("/html/body/nav/div/div[2]/ul/li[2]/a/span");
+        driver.findElement(boton).click();
     }
 }
